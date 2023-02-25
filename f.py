@@ -1,6 +1,8 @@
 import cv2 
 import mediapipe as mp 
+import numpy as np 
 import math 
+import os
 mp_hands=mp.solutions.hands 
 hands=mp_hands.Hands() 
 capture=cv2.VideoCapture(0) 
@@ -26,6 +28,9 @@ while(True):
                     cv2.line(image,(tpx,tpy),(ipx,ipy),(0,255,0),9) 
                     distance=math.sqrt((ipx-tpx)**2+(ipy-tpy)**2) 
                     print(distance) 
+                    v=np.interp(distance,[23,495],[0,100]) 
+                    vol="apactl -- set-sink-volume 0 " + str(v) + "%"  
+                    os.system(vol) 
 
             draw.draw_landmarks(image,x,mp_hands.HAND_CONNECTIONS)  
 
