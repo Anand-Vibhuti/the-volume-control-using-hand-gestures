@@ -1,5 +1,6 @@
 import cv2 
 import mediapipe as mp 
+import math 
 mp_hands=mp.solutions.hands 
 hands=mp_hands.Hands() 
 capture=cv2.VideoCapture(0) 
@@ -18,8 +19,14 @@ while(True):
                # print(finger_id,cx,cy) 
                 if finger_id==4:
                     cv2.circle(image,(cx,cy),30,(255,0,255),cv2.FILLED) 
+                    tpx,tpy=cx,cy 
                 if finger_id==8:
                     cv2.circle(image,(cx,cy),30,(255,0,255),cv2.FILLED) 
+                    ipx,ipy=cx,cy 
+                    cv2.line(image,(tpx,tpy),(ipx,ipy),(0,255,0),9) 
+                    distance=math.sqrt((ipx-tpx)**2+(ipy-tpy)**2) 
+                    print(distance) 
+
             draw.draw_landmarks(image,x,mp_hands.HAND_CONNECTIONS)  
 
     cv2.imshow('Image capture', image)
